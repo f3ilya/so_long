@@ -2,7 +2,7 @@ SRCS_M	= mandatory/so_long.c mandatory/moves.c
 OBJS_M	= ${SRCS_M:.c=.o}
 NAME	= so_long
 
-SRCS	= mandatory/check.c mandatory/utils.c
+SRCS	= mandatory/check.c
 OBJS	= ${SRCS:.c=.o}
 
 SRCS_B	= bonus/animation_bonus.c bonus/moves_bonus.c bonus/so_long_bonus.c bonus/enemy_bonus.c

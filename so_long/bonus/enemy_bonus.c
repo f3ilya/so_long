@@ -6,7 +6,7 @@
 /*   By:  <>                                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 01:35:16 by                   #+#    #+#             */
-/*   Updated: 2022/01/16 01:35:28 by                  ###   ########.fr       */
+/*   Updated: 2022/01/16 17:31:35 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
@@ -83,29 +83,7 @@ void	go_enemy2(t_push *p, int y, int x)
 	}
 }
 
-void	enemy(t_push *p)
-{
-	p->time++;
-	p->i = -1;
-	if (p->time++ % 10 == 0)
-	{
-		while (p->map[++p->i])
-		{
-			p->j = -1;
-			while (p->map[p->i][++p->j])
-			{
-				if (p->map[p->i][p->j] == 'A')
-				{
-					go_enemy1(p, p->i, p->j);
-					render(p);
-					return ;
-				}
-			}
-		}
-	}
-}
-
-void	enemy1(t_push *p)
+void	enemy(t_push *p, char c)
 {
 	p->time++;
 	p->i = -1;
@@ -116,7 +94,13 @@ void	enemy1(t_push *p)
 			p->j = -1;
 			while (p->map[p->i][++p->j])
 			{
-				if (p->map[p->i][p->j] == 'T')
+				if (p->map[p->i][p->j] == c && c == 'A')
+				{
+					go_enemy1(p, p->i, p->j);
+					render(p);
+					return ;
+				}
+				else if (p->map[p->i][p->j] == c && c == 'T')
 				{
 					go_enemy2(p, p->i, p->j);
 					render(p);

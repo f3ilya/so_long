@@ -11,6 +11,43 @@
 /* ************************************************************************** */
 #include "../includes/so_long.h"
 
+int	get_next_line(char **line, int fd)
+{
+	char	*buffer;
+	char	join;
+	int		i;
+	int		bytes_buf;
+
+	i = 0;
+	buffer = (char *) malloc(10000);
+	if (!buffer)
+		return (-1);
+	bytes_buf = read(fd, &join, 1);
+	while (bytes_buf && join != '\n' && join != '\0')
+	{
+		if (join != '\n' && join != '\0')
+			buffer[i] = join;
+		i++;
+		bytes_buf = read(fd, &join, 1);
+	}
+	buffer[i] = '\0';
+	*line = buffer;
+	free(buffer);
+	return (bytes_buf);
+}
+
+void	ft_error(char *str, int fd)
+{
+	ft_putstr_fd(str, fd);
+	exit(EXIT_FAILURE);
+}
+
+void	ft_perror(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
+}
+
 void	check_args(int argc, char **argv)
 {
 	if (argc != 2)
@@ -41,25 +78,4 @@ void	check_map(t_push *p, int i, int j)
 		p->pl.max_score++;
 	if (p->map[i][j] == 'E')
 		p->pl.count++;
-}
-
-void	init_map2(t_push *p)
-{
-	p->i = -1;
-	p->map_length = (int)ft_strlen(p->map[0]);
-	while (p->map[++p->i])
-	{
-		if (p->map_length != (int)ft_strlen(p->map[p->i]))
-			ft_error("Bad map! This is not a rectangle!\n", 2);
-		p->j = -1;
-		while (p->map[p->i][++p->j])
-			check_map(p, p->i, p->j);
-	}
-	p->map_height = p->i;
-	if (ft_strncmp(p->map[p->i - 1], p->map[0], p->map_length))
-		ft_error("Bad map! The map is not surrounded by walls!\n", 2);
-	if (p->map_length == p->map_height)
-		ft_error("Bad map! This is not a rectangle\n", 2);
-	if (p->pl.person_count != 1 || p->pl.max_score < 1 || p->pl.count < 1)
-		ft_error("Bad map! Wrong characters!\n", 2);
 }

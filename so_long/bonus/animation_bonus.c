@@ -6,7 +6,7 @@
 /*   By:  <>                                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 01:35:12 by                   #+#    #+#             */
-/*   Updated: 2022/01/16 01:52:04 by                  ###   ########.fr       */
+/*   Updated: 2022/01/16 17:30:47 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
@@ -100,8 +100,9 @@ int	animation(t_push *p)
 	if (p->pl.person_count++ > 5)
 		p->pl.person_count = 0;
 	usleep(100000);
-	enemy(p);
-	enemy1(p);
+	enemy(p, 'A');
+	p->time++;
+	enemy(p, 'T');
 	return (1);
 }
 

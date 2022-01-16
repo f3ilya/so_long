@@ -6,10 +6,31 @@
 /*   By:  <>                                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 01:34:17 by                   #+#    #+#             */
-/*   Updated: 2022/01/16 02:17:24 by                  ###   ########.fr       */
+/*   Updated: 2022/01/16 17:19:06 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
+
+void	init_map2(t_push *p)
+{
+	p->i = -1;
+	p->map_length = (int)ft_strlen(p->map[0]);
+	while (p->map[++p->i])
+	{
+		if (p->map_length != (int)ft_strlen(p->map[p->i]))
+			ft_error("Bad map! This is not a rectangle!\n", 2);
+		p->j = -1;
+		while (p->map[p->i][++p->j])
+			check_map(p, p->i, p->j);
+	}
+	p->map_height = p->i;
+	if (ft_strncmp(p->map[p->i - 1], p->map[0], p->map_length))
+		ft_error("Bad map! The map is not surrounded by walls!\n", 2);
+	if (p->map_length == p->map_height)
+		ft_error("Bad map! This is not a rectangle\n", 2);
+	if (p->pl.person_count != 1 || p->pl.max_score < 1 || p->pl.count < 1)
+		ft_error("Bad map! Wrong characters!\n", 2);
+}
 
 void	init_map(t_push *p, char **argv)
 {
@@ -90,21 +111,6 @@ void	render(t_push *p)
 		}
 	}
 	print_moves(p);
-}
-
-int	moves(int keycode, t_push *p)
-{
-	if (keycode == 13)
-		ft_go(p);
-	else if (keycode == 1)
-		ft_back(p);
-	else if (keycode == 0)
-		ft_left(p);
-	else if (keycode == 2)
-		ft_right(p);
-	else if (keycode == 53)
-		exit(EXIT_SUCCESS);
-	return (0);
 }
 
 int	main(int argc, char **argv)
